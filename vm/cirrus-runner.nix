@@ -249,6 +249,8 @@ in
           NoNewPrivileges = false;
           Type = "oneshot";
           ExecStart = "/run/wrappers/bin/vm-shutdown +5 'Cirrus job done - delayed-shutdown'";
+          RestartSec = 60;
+          Restart = "on-failure";
         };
         unitConfig = {
           ConditionPathExists = DELAYED_SHUTDOWN_FILE;
@@ -268,6 +270,8 @@ in
           NoNewPrivileges = false;
           Type = "oneshot";
           ExecStart = "/run/wrappers/bin/vm-shutdown now 'VM done - instant-shutdown'";
+          RestartSec = 60;
+          Restart = "on-failure";
         };
         unitConfig = {
           ConditionPathExists = INSTANT_SHUTDOWN_FILE;
