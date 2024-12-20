@@ -248,7 +248,7 @@ in
           # This overwrites a defaultHardening setting.
           NoNewPrivileges = false;
           Type = "oneshot";
-          ExecStart = "/run/wrappers/bin/vm-shutdown +5";
+          ExecStart = "/run/wrappers/bin/vm-shutdown +5 'Cirrus job done - delayed-shutdown'";
         };
         unitConfig = {
           ConditionPathExists = DELAYED_SHUTDOWN_FILE;
@@ -267,7 +267,7 @@ in
           # This overwrites a defaultHardening setting.
           NoNewPrivileges = false;
           Type = "oneshot";
-          ExecStart = "/run/wrappers/bin/vm-shutdown now";
+          ExecStart = "/run/wrappers/bin/vm-shutdown now 'VM done - instant-shutdown'";
         };
         unitConfig = {
           ConditionPathExists = INSTANT_SHUTDOWN_FILE;
@@ -292,7 +292,7 @@ in
       };
     };
 
-    # create a setuid wrapper for systemd-poweroff. This allows the
+    # create a setuid wrapper for systemd-shutdown. This allows the
     # unprivileged cirrus-worker user to shutdown the VM after the
     # job finishes.
     security.wrappers = {
@@ -300,7 +300,7 @@ in
         setuid = true;
         owner = "root";
         group = "root";
-        source = "${pkgs.systemd}/bin/poweroff";
+        source = "${pkgs.systemd}/bin/shutdown";
       };
     };
 
