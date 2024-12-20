@@ -248,7 +248,7 @@ in
           # This overwrites a defaultHardening setting.
           NoNewPrivileges = false;
           Type = "oneshot";
-          ExecStart = "/run/wrappers/bin/vm-shutdown +5 'Cirrus job done - delayed-shutdown'";
+          ExecStart = "/run/wrappers/bin/vm-shutdown --poweroff +5 'Cirrus job done - delayed-shutdown'";
           RestartSec = 60;
           Restart = "on-failure";
         };
@@ -269,7 +269,7 @@ in
           # This overwrites a defaultHardening setting.
           NoNewPrivileges = false;
           Type = "oneshot";
-          ExecStart = "/run/wrappers/bin/vm-shutdown now 'VM done - instant-shutdown'";
+          ExecStart = "/run/wrappers/bin/vm-shutdown --poweroff now 'VM done - instant-shutdown'";
           RestartSec = 60;
           Restart = "on-failure";
         };
