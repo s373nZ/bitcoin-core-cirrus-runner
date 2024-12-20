@@ -270,7 +270,7 @@ in
     # These overlays are 'partOf' the cirrus-worker service for each VM. They
     # are restarted each time the VM is restarted. This is needed to ensure
     # the overlayFS is still properly mounted.
-    systemd.mounts = 
+    systemd.mounts =
       [
         # mount a tmpfs for the cache
         # TODO: doc why this is 25 GB
@@ -283,8 +283,7 @@ in
           wantedBy = [ "multi-user.target" ];
         }
       ]
-    ++ (
-      map (vm: {
+      ++ (map (vm: {
         enable = true;
         where = "/var/lib/cirrusvm/${vm.name}/overlay/merged";
         type = "overlay";
@@ -296,8 +295,7 @@ in
         requires = [ "cache.mount" ];
         wantedBy = [ "multi-user.target" ];
         unitConfig.RequiresMountsFor = "/cache";
-      }) vmList
-    );
+      }) vmList);
 
     fileSystems =
       (builtins.listToAttrs (
@@ -361,8 +359,16 @@ in
             map (vm: {
               name = "cirrus-${vm.name}";
               value = {
-                after = [ "var-lib-cirrusvm-${vm.name}-overlay-merged.mount" "network-online.target" "cache.mount" ];
-                requires = [ "var-lib-cirrusvm-${vm.name}-overlay-merged.mount" "network-online.target" "cache.mount" ];
+                after = [
+                  "var-lib-cirrusvm-${vm.name}-overlay-merged.mount"
+                  "network-online.target"
+                  "cache.mount"
+                ];
+                requires = [
+                  "var-lib-cirrusvm-${vm.name}-overlay-merged.mount"
+                  "network-online.target"
+                  "cache.mount"
+                ];
                 wantedBy = [ "multi-user.target" ];
                 serviceConfig = constants.defaultHardening // {
                   ExecStart = start-vm-sh vm;
