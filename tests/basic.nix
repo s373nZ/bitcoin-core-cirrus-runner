@@ -54,7 +54,12 @@ in
     machine.wait_for_open_port(2001, timeout=60)
     machine.wait_for_open_port(9501, timeout=60)
 
-    # TODO: test grafana reachable
     machine.succeed("systemctl start grafana.service")
+    # TOOD: don't hardcode grafana port
+    # machine.wait_for_open_port(1234, timeout=15)
+
+    # wait until the node exporter on vm0small is online 
+    machine.wait_until_succeeds("${pkgs.curl}/bin/curl http://127.0.0.1:9500", timeout=10)
+
   '';
 }
