@@ -4,7 +4,7 @@ let
 
   PROMETHEUS_EXPORTER_PORT_SMALL = 9500;
   PROMETHEUS_EXPORTER_PORT_MEDIUM = 9501;
-  
+
 in
 {
   name = "basic";
