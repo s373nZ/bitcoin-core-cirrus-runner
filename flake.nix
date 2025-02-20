@@ -25,7 +25,8 @@
       nixosModules.default = import ./module.nix;
 
       checks = forAllSystems (system: {
-        basic = mkTest [ ./tests/basic.nix ] system;
+        #basic = mkTest [ ./tests/basic.nix ] system;
+        cirrus-task = mkTest [ ./tests/cirrus-task.nix ] system;
       });
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
