@@ -55,7 +55,7 @@ let
     set -o xtrace
     FILE_TO_CHECK="${DOCKER_SOCKET_FILE}"
     # Number of attempts
-    MAX_ATTEMPTS=20
+    MAX_ATTEMPTS=200
 
     # Counter for attempts
     attempt=0
@@ -131,6 +131,7 @@ in
         echo "Copied cirrus worker config file to ${VM_CONFIG_FILE_PATH} read-writable by ${CIRRUS_WORKER_USER}:${CIRRUS_WORKER_GROUP}"
 
         stat ${MOUNTED_CONFIG_FILE_PATH}
+        cat ${MOUNTED_CONFIG_FILE_PATH}
       '';
       serviceConfig = {
         Type = "oneshot";
@@ -142,6 +143,7 @@ in
       description = "Cirrus CI Worker";
       after = [
         "network-online.target"
+        "docker-rootless.service"
         "setup-cirrus-worker-config.service"
       ];
       wants = [ "network-online.target" ];
@@ -154,7 +156,7 @@ in
           load-docker-images-sh
         ];
         ExecStart = "${pkgs.bash}/bin/bash -c '${patched-cirrus-cli}/bin/cirrus worker run --file ${VM_CONFIG_FILE_PATH} --name ${cfg.name} --labels type=${cfg.size} --ephemeral'";
-        ExecStartPost = "${pkgs.bash}/bin/bash -c 'sleep 2 && ${pkgs.coreutils}/bin/rm ${VM_CONFIG_FILE_PATH} && echo \"removed cirrus worker config file ${VM_CONFIG_FILE_PATH}\"'";
+        #ExecStartPost = "${pkgs.bash}/bin/bash -c 'sleep 60 && ${pkgs.coreutils}/bin/rm ${VM_CONFIG_FILE_PATH} && echo \"removed cirrus worker config file ${VM_CONFIG_FILE_PATH}\"'";
         ExecStopPost = [
           # Create the DELAYED_SHUTDOWN_FILE. Even if any other ExecStopPost script fails, the vm will shut down eventually.
           "${pkgs.coreutils-full}/bin/touch ${DELAYED_SHUTDOWN_FILE}"
@@ -171,7 +173,7 @@ in
         # Loading the docker images can take a while if all VMs load them at
         # the same time. To avoid the cirrus-worker failing to start, time out
         # only after 300 secs.
-        TimeoutStartSec = "300";
+        TimeoutStartSec = "infinity";
         # ProtectHome = true disables access to DOCKER_SOCKET_FILE
         # This overwrites a defaultHardening setting.
         ProtectHome = false;

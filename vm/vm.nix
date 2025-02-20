@@ -180,6 +180,8 @@ in
           # containered image store is needed to use https://docs.docker.com/build/cache/backends/
           containerd-snapshotter = true;
         };
+
+        #iptables = false;
       };
     };
   };
@@ -188,6 +190,22 @@ in
   # again, but can be removed at some point.
   # systemd.user.services.docker.environment.DOCKERD_ROOTLESS_ROOTLESSKIT_DISABLE_HOST_LOOPBACK = "false";
 
+  # Install LXD is installed.
+  #  https://jnsgr.uk/2024/02/nixos-vms-in-github-actions/
+  #virtualisation.lxd.enable = true;
+
+  systemd.user.services.docker.serviceConfig = {
+    TimeoutSec = pkgs.lib.mkForce "infinity";
+  };
+
+  # Try to increase the VM resources used when running the Nix flake tests.
+  virtualisation.vmVariant = {
+    virtualisation.cores = 3;
+  };
+  virtualisation.vmVariantWithBootLoader = {
+    virtualisation.cores = 3;
+  };
+  
   services.prometheus = {
     exporters = {
       node = {
