@@ -200,10 +200,10 @@ in
 
   # Try to increase the VM resources used when running the Nix flake tests.
   virtualisation.vmVariant = {
-    virtualisation.cores = 3;
+    virtualisation.cores = 2;
   };
   virtualisation.vmVariantWithBootLoader = {
-    virtualisation.cores = 3;
+    virtualisation.cores = 2;
   };
   
   services.prometheus = {
