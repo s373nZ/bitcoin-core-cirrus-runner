@@ -188,7 +188,7 @@ in
   # incase the CI docker containers would need to talk to services on the VM, this
   # would need to be enabled. This is kept as dead comment in case it becomes relevant
   # again, but can be removed at some point.
-  # systemd.user.services.docker.environment.DOCKERD_ROOTLESS_ROOTLESSKIT_DISABLE_HOST_LOOPBACK = "false";
+  systemd.user.services.docker.environment.DOCKERD_ROOTLESS_ROOTLESSKIT_DISABLE_HOST_LOOPBACK = "false";
 
   # Install LXD is installed.
   #  https://jnsgr.uk/2024/02/nixos-vms-in-github-actions/
