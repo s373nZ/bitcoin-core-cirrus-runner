@@ -7,7 +7,7 @@
     { config, lib, ... }:
     {
       imports = [ ../module.nix ];
-      virtualisation.cores = 3;
+      virtualisation.cores = 2;
       virtualisation.memorySize = 12 * 1024;
 
       users.users.alice = {
@@ -29,7 +29,7 @@
         vms = {
           small = {
             count = 1;
-            cpu = 3;
+            cpu = 2;
             memory = 8;
           };
         };
