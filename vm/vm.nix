@@ -182,6 +182,7 @@ in
         };
 
         #iptables = false;
+        debug = true;
       };
     };
   };
