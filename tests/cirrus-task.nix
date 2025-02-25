@@ -34,6 +34,13 @@
           };
         };
       };
+
+      boot.kernelModules = [ "br_netfilter" ];
+      boot.kernel.sysctl = {
+        "net.bridge.bridge-nf-call-iptables" = 1;
+        "net.bridge.bridge-nf-call-ip6tables" = 1;
+      };
+      #networking.firewall.enable = true;
     };
 
   # tests that the configuration evaluates, the VMs start and are reachable.
