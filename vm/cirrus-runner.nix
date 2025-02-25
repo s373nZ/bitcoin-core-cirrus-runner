@@ -188,11 +188,11 @@ in
         # overwrites the "any" defaultHardening setting. The service needs to
         # connect to different IP addresses depending on the CI job, we can't
         # limit them here.
-        IPAddressDeny = [
-          "localhost"
-          "link-local"
-          "multicast"
-        ];
+        # IPAddressDeny = [
+        #   "localhost"
+        #   "link-local"
+        #   "multicast"
+        # ];
       };
       environment = {
         PATH = lib.mkForce (
