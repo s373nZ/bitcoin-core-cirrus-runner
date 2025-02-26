@@ -205,6 +205,13 @@ in
   virtualisation.vmVariantWithBootLoader = {
     virtualisation.cores = 2;
   };
+
+  # Try the bridge kernel modules in the host vm.
+  boot.kernelModules = [ "br_netfilter" ];
+  boot.kernel.sysctl = {
+    "net.bridge.bridge-nf-call-iptables" = 1;
+    "net.bridge.bridge-nf-call-ip6tables" = 1;
+  };
   
   services.prometheus = {
     exporters = {
