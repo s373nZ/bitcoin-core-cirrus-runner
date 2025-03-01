@@ -121,8 +121,8 @@ in
     # malicious workers.
     systemd.services.setup-cirrus-worker-config = {
       description = "Cirrus CI worker config creation";
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
+      after = [ "network-online.target" "nss-lookup.target" ];
+      wants = [ "network-online.target" "nss-lookup.target" ];
       wantedBy = [ "cirrus-worker.service" ];
       script = ''
         cp ${MOUNTED_CONFIG_FILE_PATH} ${VM_CONFIG_FILE_PATH}
@@ -143,10 +143,11 @@ in
       description = "Cirrus CI Worker";
       after = [
         "network-online.target"
+        "nss-lookup.target"
         "docker-rootless.service"
         "setup-cirrus-worker-config.service"
       ];
-      wants = [ "network-online.target" ];
+      wants = [ "network-online.target" "nss-lookup.target" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = constants.defaultHardening // {
         ExecStartPre = [
