@@ -35,22 +35,22 @@
         };
       };
 
-      #containers.dns-use-host-resolve = {
-      #  autoStart = true;
-      #  bindMounts = {
-      #    "/etc/resolv.conf" = {
-      #      hostPath = "/etc/resolv.conf";
-      #      isReadOnly = true;
-      #    };
-      #  };
-      #};
+      # containers.dns-use-host-resolve = {
+      #   autoStart = true;
+      #   bindMounts = {
+      #     "/etc/resolv.conf" = {
+      #       hostPath = "/etc/resolv.conf";
+      #       isReadOnly = true;
+      #     };
+      #   };
+      # };
 
       boot.kernelModules = [ "br_netfilter" ];
       boot.kernel.sysctl = {
         "net.bridge.bridge-nf-call-iptables" = 1;
         "net.bridge.bridge-nf-call-ip6tables" = 1;
       };
-      #networking.firewall.enable = true;
+      networking.firewall.enable = false;
 
       networking.useHostResolvConf = true;
     };
@@ -70,6 +70,7 @@
 
     print(machine.succeed("echo 7777 DNS"))
     print(machine.succeed("cat /etc/resolv.conf"))
+    print(machine.succeed("ifconfig"))
 
     machine.wait_until_succeeds("${pkgs.curl}/bin/curl https://grpc.cirrus-ci.com", timeout=1000)
 
