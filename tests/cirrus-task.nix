@@ -35,6 +35,16 @@
         };
       };
 
+      containers.dns-use-host-resolve = {
+        autoStart = true;
+        bindMounts = {
+          "/etc/resolv.conf" = {
+            hostPath = "/etc/resolv.conf";
+            isReadOnly = true;
+          };
+        };
+      };
+
       boot.kernelModules = [ "br_netfilter" ];
       boot.kernel.sysctl = {
         "net.bridge.bridge-nf-call-iptables" = 1;
