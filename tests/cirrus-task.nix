@@ -56,6 +56,9 @@
 
     machine.wait_for_unit("cirrus-vm0small.service")
 
+    print(machine.succeed("echo 7777 DNS"))
+    print(machine.succeed("cat /etc/resolv.conf"))
+
     machine.wait_until_succeeds("${pkgs.curl}/bin/curl https://grpc.cirrus-ci.com", timeout=1000)
 
     # Look for task run in the logs.
