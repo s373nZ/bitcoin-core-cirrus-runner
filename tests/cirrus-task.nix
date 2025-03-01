@@ -65,6 +65,7 @@
 
     # Wait for system boot.
     machine.wait_for_unit("network-online.target")
+    machine.wait_for_unit("nss-lookup.target")
 
     machine.wait_for_unit("cirrus-vm0small.service")
 
