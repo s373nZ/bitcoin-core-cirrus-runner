@@ -35,15 +35,15 @@
         };
       };
 
-      containers.dns-use-host-resolve = {
-        autoStart = true;
-        bindMounts = {
-          "/etc/resolv.conf" = {
-            hostPath = "/etc/resolv.conf";
-            isReadOnly = true;
-          };
-        };
-      };
+      #containers.dns-use-host-resolve = {
+      #  autoStart = true;
+      #  bindMounts = {
+      #    "/etc/resolv.conf" = {
+      #      hostPath = "/etc/resolv.conf";
+      #      isReadOnly = true;
+      #    };
+      #  };
+      #};
 
       boot.kernelModules = [ "br_netfilter" ];
       boot.kernel.sysctl = {
@@ -51,6 +51,8 @@
         "net.bridge.bridge-nf-call-ip6tables" = 1;
       };
       #networking.firewall.enable = true;
+
+      networking.useHostResolvConf = true;
     };
 
   # tests that the configuration evaluates, the VMs start and are reachable.
