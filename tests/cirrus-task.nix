@@ -56,6 +56,8 @@
 
     machine.wait_for_unit("cirrus-vm0small.service")
 
+    machine.wait_until_succeeds("${pkgs.curl}/bin/curl https://grpc.cirrus-ci.com", timeout=1000)
+
     # Look for task run in the logs.
     machine.wait_until_succeeds("journalctl -u cirrus-vm0small --no-pager | grep \"started task [0-9]+\"", timeout=6000)
   '';
