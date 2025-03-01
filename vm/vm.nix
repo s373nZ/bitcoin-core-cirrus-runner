@@ -225,5 +225,7 @@ in
   };
   networking.firewall.allowedTCPPorts = [ config.services.prometheus.exporters.node.port ];
 
+  networking.useHostResolvConf = true;
+
   system.stateVersion = "24.11";
 }
