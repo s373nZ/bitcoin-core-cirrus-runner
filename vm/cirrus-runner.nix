@@ -158,7 +158,13 @@ in
         ];
         ExecStart = "${pkgs.bash}/bin/bash -c '${patched-cirrus-cli}/bin/cirrus worker run --file ${VM_CONFIG_FILE_PATH} --name ${cfg.name} --labels type=${cfg.size} --ephemeral'";
         #ExecStartPost = "${pkgs.bash}/bin/bash -c 'sleep 60 && ${pkgs.coreutils}/bin/rm ${VM_CONFIG_FILE_PATH} && echo \"removed cirrus worker config file ${VM_CONFIG_FILE_PATH}\"'";
-        ExecStartPost = "${pkgs.docker}/bin/docker info";
+        ExecStartPost = [
+          "${pkgs.docker}/bin/docker info"
+
+          "${pkgs.dnsutils}/bin/nslookup google.com"
+
+          "${pkgs.dnsutils}/bin/nslookup grpc.cirrus-ci.com"
+        ];
         ExecStopPost = [
           # Create the DELAYED_SHUTDOWN_FILE. Even if any other ExecStopPost script fails, the vm will shut down eventually.
           "${pkgs.coreutils-full}/bin/touch ${DELAYED_SHUTDOWN_FILE}"
